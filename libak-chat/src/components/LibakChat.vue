@@ -58,7 +58,6 @@
             >
                 <div class="container" v-for="(message, index) in messages" :key="index">
                 <br/>
-                <br/>
                     <div class="has-text-centered">
                         <span v-if="message.hostMsg != null" class="notification has-text-info">
                             <b>{{ message.hostMsg }}</b>
