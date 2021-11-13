@@ -57,14 +57,11 @@
                 style="width: 100%; margin: auto; height: 94vh; overflow: auto;"
             >
                 <div class="container" v-for="(message, index) in messages" :key="index">
-                <br/>
                     <div class="has-text-centered">
                         <span v-if="message.hostMsg != null" class="notification has-text-info">
                             <b>{{ message.hostMsg }}</b>
                         </span>
                     </div>
-                    <br />
-
                     <div v-if="message.message != null" class="content">
                         <h3>
                             <img v-bind:src="message.userpic" />
