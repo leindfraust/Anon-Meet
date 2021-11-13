@@ -1,0 +1,23 @@
+{
+  "name": "chat-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "server": "nodemon index.js --ignore 'libak-chat/",
+    "client": "npm run serve --prefix libak-chat",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "start": "node index.js"
+  },
+  "author": "leindfraust",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "concurrently": "^6.3.0",
+    "connect-history-api-fallback": "^1.6.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.15",
+    "socket.io": "^4.3.2"
+  }
+}
