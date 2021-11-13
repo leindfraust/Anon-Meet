@@ -5,7 +5,7 @@
                 <span class="title has-text-white">LIBAK</span><img :src="require('../assets/logo.png')" id="libak-logo">
                 <br/>
                 <br/>
-                <p class="subtitle has-text-white">Chat anyone anonymously. </p>
+                <p class="subtitle has-text-white">Chat anyone, anonymously. </p>
                 <div class="field" style="width: 33%; margin: auto;">
                     <label class="label has-text-white has-text-left">Username:</label>
                     <div class="control">
