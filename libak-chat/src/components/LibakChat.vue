@@ -123,7 +123,7 @@ export default {
             hostMessage: [],
             currentUser: this.$store.state.username,
             input: '',
-            imgPreUrl: 'https://ui-avatars.com/api/?name=',
+            imgPreUrl: 'https://avatars.dicebear.com/api/micah/',
             extUrl: '.svg',
             roomPicked: false,
             OldRoomID: ''
@@ -142,7 +142,7 @@ export default {
             }
         },
         sendMessage(e, msg) {
-            let userpic = this.imgPreUrl + this.currentUser 
+            let userpic = this.imgPreUrl + this.currentUser + this.extUrl
             if (this.input == '') {
                 e.preventDefault()
             } else {
@@ -161,12 +161,10 @@ export default {
 <style scoped>
 img {
     width: 5%;
-    margin-bottom: -2%
 }
 @media (max-width: 991.98px) {
     img {
         width: 15%;
-        margin-bottom: -6% !important
     }
     #pickRoomDialogue {
         margin-top: 0px !important;
