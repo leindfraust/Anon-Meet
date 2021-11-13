@@ -57,6 +57,8 @@
                 style="width: 100%; margin: auto; height: 94vh; overflow: auto;"
             >
                 <div class="container" v-for="(message, index) in messages" :key="index">
+                <br/>
+                <br/>
                     <div class="has-text-centered">
                         <span v-if="message.hostMsg != null" class="notification has-text-info">
                             <b>{{ message.hostMsg }}</b>
@@ -144,7 +146,7 @@ export default {
             }
         },
         sendMessage(e, msg) {
-            let userpic = this.imgPreUrl + this.currentUser
+            let userpic = this.imgPreUrl + this.currentUser 
             if (this.input == '') {
                 e.preventDefault()
             } else {
@@ -163,10 +165,12 @@ export default {
 <style scoped>
 img {
     width: 5%;
+    margin-bottom: -2%
 }
 @media (max-width: 991.98px) {
     img {
         width: 15%;
+        margin-bottom: -6% !important
     }
     #pickRoomDialogue {
         margin-top: 0px !important;
