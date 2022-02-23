@@ -54,6 +54,6 @@ io.on('connection', (socket) => {
 
 app.get('/', (req, res) => {
 
-    res.sendFile(path.join(__dirname, 'libak-chat/dist/index.html'))
+    res.sendFile(path.join(__dirname, 'anon-meett/dist/index.html'))
 
 });
