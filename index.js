@@ -4,11 +4,15 @@ const morgan = require('morgan');
 const history = require('connect-history-api-fallback');
 const app = express();
 const path = require('path')
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT
 const server = app.listen(PORT, () => {
     console.log(`listening to ${PORT}`);
 });
-const io = require("socket.io")(server);
+const io = require("socket.io")(server, {
+    cors: {
+        origin: "http://localhost:8080"
+    }
+});
 
 //usages
 app.use(cors());
