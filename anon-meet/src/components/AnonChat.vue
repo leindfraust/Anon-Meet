@@ -79,7 +79,7 @@
                 </ul>
             </aside>
         </div>
-        <div class="column" v-if="!roomPicked">
+        <div class="column" v-if="!roomPicked" style="height: 100vh;">
             <h1
                 class="title has-text-centered"
                 id="pickRoomDialogue"
@@ -129,44 +129,49 @@
             </div>
         </div>
     </div>
+    <AnonFooter/>
 </template>
 
 <script>
 import socket from '../socket'
-
+import AnonFooterVue from './AnonFooter.vue'
+import AnonFooter from './AnonFooter.vue'
 export default {
-    name: 'AnonChat',
+    name: "AnonChat",
+    component: {
+        AnonFooterVue
+    },
     created() {
-        document.addEventListener('beforeunload', this.disconnect)
+        document.addEventListener("beforeunload", this.disconnect);
     },
     mounted() {
-        socket.connect()
-        socket.on('chat message', (msg, user, userpic) => {
+        socket.connect();
+        socket.on("chat message", (msg, user, userpic) => {
             this.messages.push({
                 user: user,
                 message: msg,
                 userpic: userpic
             });
-            setTimeout(() => { this.scrollBottom() }, 100)
+            setTimeout(() => { this.scrollBottom(); }, 100);
         });
-        socket.on('host message', (hostMsg, roomNo) => {
+        socket.on("host message", (hostMsg, roomNo) => {
             this.messages.push({
                 hostMsg: hostMsg
             });
-            this.OldRoomID = roomNo
+            this.OldRoomID = roomNo;
         });
-        socket.on('users-connected', users => {
-            this.connectedUsers = users
-        })
+        socket.on("users-connected", users => {
+            this.connectedUsers = users;
+        });
     },
     data() {
         return {
             messages: [],
             hostMessage: [],
             currentUser: this.$store.state.username,
-            input: '',
-            imgPreUrl: 'https://avatars.dicebear.com/api/micah/',
-            extUrl: '.svg',
+            input: "",
+            imgPreUrl: "https://avatars.dicebear.com/api/micah/",
+            extUrl: ".svg",
             roomPicked: false,
             roomPickedFiesta: false,
             roomPickedOrgEvents: false,
@@ -176,22 +181,22 @@ export default {
             roomPickedI: false,
             roomPickedN: false,
             roomPickedL: false,
-            OldRoomID: '',
-            selectedRoom: '',
+            OldRoomID: "",
+            selectedRoom: "",
             menuMobileToggle: true,
             connectedUsers: 0
-        }
+        };
     },
     methods: {
         disconnect() {
             socket.disconnect();
         },
         pickRoom(room) {
-            socket.emit('join room', room, `${this.currentUser} has joined the room.`)
-            this.messages = []
-            this.menuMobileToggle = true
-            this.roomPicked = true
-            if (room == 'Fiesta') {
+            socket.emit("join room", room, `${this.currentUser} has joined the room.`);
+            this.messages = [];
+            this.menuMobileToggle = true;
+            this.roomPicked = true;
+            if (room == "Fiesta") {
                 this.roomPickedFiesta = true,
                     this.roomPickedOrgEvents = false,
                     this.roomPickedMAM = false,
@@ -199,9 +204,10 @@ export default {
                     this.roomPickedSE = false,
                     this.roomPickedI = false,
                     this.roomPickedN = false,
-                    this.roomPickedL = false
-                    this.selectedRoom = 'Fiestas'
-            } else if (room == 'OrgEvents') {
+                    this.roomPickedL = false;
+                this.selectedRoom = "Fiestas";
+            }
+            else if (room == "OrgEvents") {
                 this.roomPickedFiesta = false,
                     this.roomPickedOrgEvents = true,
                     this.roomPickedMAM = false,
@@ -210,8 +216,9 @@ export default {
                     this.roomPickedI = false,
                     this.roomPickedN = false,
                     this.roomPickedL = false,
-                    this.selectedRoom = 'Organizational Events'
-            } else if (room == 'MAM') {
+                    this.selectedRoom = "Organizational Events";
+            }
+            else if (room == "MAM") {
                 this.roomPickedFiesta = false,
                     this.roomPickedOrgEvents = false,
                     this.roomPickedMAM = true,
@@ -219,9 +226,10 @@ export default {
                     this.roomPickedSE = false,
                     this.roomPickedI = false,
                     this.roomPickedN = false,
-                    this.roomPickedL = false
-                    this.selectedRoom = 'Manga, Anime & Manwha'
-            } else if (room == 'SMP') {
+                    this.roomPickedL = false;
+                this.selectedRoom = "Manga, Anime & Manwha";
+            }
+            else if (room == "SMP") {
                 this.roomPickedFiesta = false,
                     this.roomPickedOrgEvents = false,
                     this.roomPickedMAM = false,
@@ -229,9 +237,10 @@ export default {
                     this.roomPickedSE = false,
                     this.roomPickedI = false,
                     this.roomPickedN = false,
-                    this.roomPickedL = false
-                    this.selectedRoom = 'Science, Math & Programming'
-            } else if (room == 'SE') {
+                    this.roomPickedL = false;
+                this.selectedRoom = "Science, Math & Programming";
+            }
+            else if (room == "SE") {
                 this.roomPickedFiesta = false,
                     this.roomPickedOrgEvents = false,
                     this.roomPickedMAM = false,
@@ -240,8 +249,9 @@ export default {
                     this.roomPickedI = false,
                     this.roomPickedN = false,
                     this.roomPickedL = false,
-                    this.selectedRoom = 'School and Education'
-            } else if (room == 'I') {
+                    this.selectedRoom = "School and Education";
+            }
+            else if (room == "I") {
                 this.roomPickedFiesta = false,
                     this.roomPickedOrgEvents = false,
                     this.roomPickedMAM = false,
@@ -250,8 +260,9 @@ export default {
                     this.roomPickedI = true,
                     this.roomPickedN = false,
                     this.roomPickedL = false,
-                    this.selectedRoom = 'International News'
-            } else if (room == 'N') {
+                    this.selectedRoom = "International News";
+            }
+            else if (room == "N") {
                 this.roomPickedFiesta = false,
                     this.roomPickedOrgEvents = false,
                     this.roomPickedMAM = false,
@@ -260,8 +271,9 @@ export default {
                     this.roomPickedI = false,
                     this.roomPickedN = true,
                     this.roomPickedL = false,
-                    this.selectedRoom = 'National News'
-            } else if (room == 'L') {
+                    this.selectedRoom = "National News";
+            }
+            else if (room == "L") {
                 this.roomPickedFiesta = false,
                     this.roomPickedOrgEvents = false,
                     this.roomPickedMAM = false,
@@ -269,32 +281,32 @@ export default {
                     this.roomPickedSE = false,
                     this.roomPickedI = false,
                     this.roomPickedN = false,
-                    this.roomPickedL = true
-                    this.selectedRoom = 'Local News'
+                    this.roomPickedL = true;
+                this.selectedRoom = "Local News";
             }
-
-
             if (this.OldRoomID) {
-                socket.emit('leave room', this.OldRoomID, `${this.currentUser} has left the room.`)
+                socket.emit("leave room", this.OldRoomID, `${this.currentUser} has left the room.`);
             }
         },
         sendMessage(e, msg) {
-            let userpic = this.imgPreUrl + this.currentUser + this.extUrl
-            if (this.input == '') {
-                e.preventDefault()
-            } else {
-                socket.emit('message', msg, this.currentUser, userpic)
-                this.input = ''
+            let userpic = this.imgPreUrl + this.currentUser + this.extUrl;
+            if (this.input == "") {
+                e.preventDefault();
+            }
+            else {
+                socket.emit("message", msg, this.currentUser, userpic);
+                this.input = "";
             }
         },
         scrollBottom() {
-            let el = document.getElementById('chatbox')
+            let el = document.getElementById("chatbox");
             el.lastElementChild.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
         },
         toggleMenu() {
-            this.menuMobileToggle = !this.menuMobileToggle
+            this.menuMobileToggle = !this.menuMobileToggle;
         }
-    }
+    },
+    components: { AnonFooter }
 }
 </script>
 

@@ -25,11 +25,16 @@ nc<template>
             </div>
         </div>
     </section>
+    <AnonFooterVue/>
 </template>
 
 <script>
+import AnonFooterVue from "./AnonFooter.vue"
 export default {
     name: 'AnonUsername',
+    components: {
+        AnonFooterVue
+    },
     data() {
         return {
             username: ''
