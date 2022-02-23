@@ -22,6 +22,7 @@ nc<template>
                         @click="anonChat"
                     >Get Started</button>
                 </div>
+                <p class="subtitle is-7 has-text-left">Developed by <b>Ronan</b>. | | <a href="www.facebook.com/leindfraust">Facebook</a>  <a href="https://github.com/leindfraust">Github</a></p>
             </div>
         </div>
     </section>
