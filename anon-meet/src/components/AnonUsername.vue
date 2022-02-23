@@ -1,4 +1,4 @@
-<template>
+nc<template>
     <section class="hero is-fullheight" style=" margin: auto; background-color: whitesmoke">
         <div class="hero-body" style="width: 33%; margin: auto;">
             <div class="container has-text-centered box">

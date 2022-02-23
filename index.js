@@ -4,7 +4,7 @@ const morgan = require('morgan');
 const history = require('connect-history-api-fallback');
 const app = express();
 const path = require('path')
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 5000
 const server = app.listen(PORT, () => {
     console.log(`listening to ${PORT}`);
 });
