@@ -22,11 +22,11 @@ app.use(history());
 app.use(express.static(path.join(__dirname, 'libak-chat/dist')))
 
 //io connection
+let clients = 0
 io.on('connection', (socket) => {
     let roomNo = null
     socket.on('join room', (roomID, hostMsg) => {
         socket.join(roomID)
-        console.log(socket.rooms)
         roomNo = roomID
         io.to(roomNo).emit('host message', hostMsg, roomID);
     });
@@ -34,10 +34,20 @@ io.on('connection', (socket) => {
         socket.leave(roomID)
         io.to(roomID).emit('host message', hostMsg)
     });
+    clients = clients + 1
+    io.emit('users-connected', clients)
     console.log('Client connected');
-    socket.on('connect', () => console.log('Client connected'))
-    socket.on('disconnect', () => console.log('Client disconnected'));
-    socket.on('message', (msg, user, userPic) => {
+    socket.on('disconnect', () => {
+        console.log('Client disconnected')
+        if (clients == -1) {
+            clients = 0
+            io.emit('users-connected', clients)
+        } else {
+            clients = clients - 1
+            io.emit('users-connected', clients)
+        }
+    });
+    socket.on('message', async (msg, user, userPic) => {
         io.to(roomNo).emit('chat message', msg, user, userPic);
     });
 });

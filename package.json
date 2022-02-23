@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "server": "nodemon index.js --ignore 'libak-chat/",
-    "client": "npm run serve --prefix libak-chat",
+    "server": "nodemon index.js --ignore 'anon-meet/",
+    "client": "npm run serve --prefix anon-meet",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "start": "node index.js"
   },

@@ -1,6 +1,6 @@
 {
     "include": [
-      "libak-chat/src/**/*"
+      "anon-meet/src/**/*"
     ],
     "exclude": ["node_modules"]
   }
