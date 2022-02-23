@@ -19,7 +19,7 @@ app.use(cors());
 app.use(morgan('tiny'));
 app.use(express.json());
 app.use(history());
-app.use(express.static(path.join(__dirname, 'libak-chat/dist')))
+app.use(express.static(path.join(__dirname, 'anon-meet/dist')))
 
 //io connection
 let clients = 0
@@ -54,6 +54,6 @@ io.on('connection', (socket) => {
 
 app.get('/', (req, res) => {
 
-    res.sendFile(path.join(__dirname, 'anon-meett/dist/index.html'))
+    res.sendFile(path.join(__dirname, 'anon-meet/dist/index.html'))
 
 });
