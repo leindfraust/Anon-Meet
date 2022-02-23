@@ -8,11 +8,7 @@ const PORT = process.env.PORT || 5000
 const server = app.listen(PORT, () => {
     console.log(`listening to ${PORT}`);
 });
-const io = require("socket.io")(server, {
-    cors: {
-        origin: "http://localhost:8080"
-    }
-});
+const io = require("socket.io")(server);
 
 //usages
 app.use(cors());
