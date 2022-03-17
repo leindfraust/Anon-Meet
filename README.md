@@ -26,7 +26,8 @@ npm install
 
 # Serve in your browser
 Edit socket.js in client-side folder(anon-meet) and uncomment ``` let URL = 'http://localhost:5000' ```. It will be like this: 
-```import {
+```
+import {
     io
 } from "socket.io-client"
 const socket = io({
