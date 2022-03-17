@@ -440,7 +440,7 @@ function sendMessage(e, msg) {
 }
 function scrollBottom() {
     let el = document.getElementById('chatbox')
-    el.lastElementChild.scrollIntoView({ behavior: "smooth" });
+    el.lastElementChild.scrollIntoView();
 }
 function toggleMenu() {
     menuMobileToggle.value = !menuMobileToggle.value
@@ -471,7 +471,7 @@ function toggleMenu() {
         margin-top: 0px !important;
     }
     #chatbox {
-        height: 70vh !important;
+        height: 50vh !important;
     }
     #menu-nav {
         width: 100%;
