@@ -32,3 +32,5 @@ and serve through
 npm run dev
 ```
 
+# License
+See the [a relative link](LICENSE) file for license rights and limitations (MIT).
