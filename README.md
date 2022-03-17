@@ -19,22 +19,16 @@ go to anon-meet folder
 ```
 cd anon-meet
 ```
-and install packages
+and install packages.
 ```
 npm install
 ```
-
-# Serve in your browser
-Edit socket.js in client-side folder(anon-meet) and uncomment ``` let URL = 'http://localhost:5000' ```. It will be like this: 
+To serve in your browser locally, go back to root folder 
 ```
-import {
-    io
-} from "socket.io-client"
-const socket = io({
-let URL = 'http://localhost:5000'
-const socket = io(URL,{
-    autoConnect: false
-});
+cd ../
 ```
-go back to root directory ``` cd ../ ``` and serve on your browser by ``` npm run dev ```
+and serve through 
+``` 
+npm run dev
+```
 
