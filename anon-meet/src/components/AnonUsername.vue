@@ -34,13 +34,12 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import { useStore } from 'vuex';
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter} from 'vue-router'
 
 const store = useStore()
 const router = useRouter()
-const route = useRoute()
 let username = ref('')
 async function anonChat() {
     store.commit('username', username.value)
