@@ -1,7 +1,8 @@
 import {
     io
 } from "socket.io-client"
-const socket = io({
+let URL = 'http://localhost:5000'
+const socket = io(URL,{
     autoConnect: false
 });
 
