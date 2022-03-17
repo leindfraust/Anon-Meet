@@ -1,14 +1,20 @@
 <template>
     <div class="columns">
         <div class="column is-2">
-            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" @click="toggleMenu">
+            <a
+                role="button"
+                class="navbar-burger"
+                aria-label="menu"
+                aria-expanded="false"
+                @click="toggleMenu"
+            >
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
             </a>
-            <aside class="menu box" :class="{'is-hidden-mobile': menuMobileToggle}">
+            <aside class="menu box" :class="{ 'is-hidden-mobile': menuMobileToggle }">
                 <ul class="menu-list container">
-                <p class="subtitle is-6 has-text-success">Users Online: {{connectedUsers}}</p>
+                    <p class="subtitle is-6 has-text-success">Users Online: {{ connectedUsers }}</p>
                     <p class="menu-label">Meet Ups</p>
                     <li>
                         <a
@@ -87,9 +93,9 @@
             >Pick a room to start chatting!</h1>
         </div>
         <div class="column" v-if="roomPicked">
-        <div class="box">
-            <h4 class="title is-4">{{selectedRoom}}</h4>
-        </div>
+            <div class="box">
+                <h4 class="title is-4">{{ selectedRoom }}</h4>
+            </div>
             <div
                 class="container is-fluid"
                 id="chatbox"
@@ -123,181 +129,172 @@
                     <button
                         class="button is-info"
                         type="button"
-                        @click="sendMessage($event, this.input)"
+                        @click="sendMessage($event, input)"
                     >Send</button>
                 </p>
             </div>
         </div>
     </div>
 </template>
-
-<script>
+<script setup>
 import socket from '../socket'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { useStore } from 'vuex'
 
-export default {
-    name: 'AnonChat',
-    created() {
-        document.addEventListener('beforeunload', this.disconnect)
-    },
-    mounted() {
-        socket.connect()
-        socket.on('chat message', (msg, user, userpic) => {
-            this.messages.push({
-                user: user,
-                message: msg,
-                userpic: userpic
-            });
-            setTimeout(() => { this.scrollBottom() }, 100)
+const store = useStore()
+
+onMounted(() => {
+    socket.connect()
+    socket.on('chat message', (msg, user, userpic) => {
+        messages.value.push({
+            user: user,
+            message: msg,
+            userpic: userpic
         });
-        socket.on('host message', (hostMsg, roomNo) => {
-            this.messages.push({
-                hostMsg: hostMsg
-            });
-            this.OldRoomID = roomNo
+        setTimeout(() => { scrollBottom() }, 100)
+    });
+    socket.on('host message', (hostMsg, roomNo) => {
+        messages.value.push({
+            hostMsg: hostMsg
         });
-        socket.on('users-connected', users => {
-            this.connectedUsers = users
-        })
-    },
-    data() {
-        return {
-            messages: [],
-            hostMessage: [],
-            currentUser: this.$store.state.username,
-            input: '',
-            imgPreUrl: 'https://avatars.dicebear.com/api/micah/',
-            extUrl: '.svg',
-            roomPicked: false,
-            roomPickedFiesta: false,
-            roomPickedOrgEvents: false,
-            roomPickedMAM: false,
-            roomPickedSMP: false,
-            roomPickedSE: false,
-            roomPickedI: false,
-            roomPickedN: false,
-            roomPickedL: false,
-            OldRoomID: '',
-            selectedRoom: '',
-            menuMobileToggle: true,
-            connectedUsers: 0
-        }
-    },
-    methods: {
-        disconnect() {
-            socket.disconnect();
-        },
-        pickRoom(room) {
-            socket.emit('join room', room, `${this.currentUser} has joined the room.`)
-            this.messages = []
-            this.menuMobileToggle = true
-            this.roomPicked = true
-            if (room == 'Fiesta') {
-                this.roomPickedFiesta = true,
-                    this.roomPickedOrgEvents = false,
-                    this.roomPickedMAM = false,
-                    this.roomPickedSMP = false,
-                    this.roomPickedSE = false,
-                    this.roomPickedI = false,
-                    this.roomPickedN = false,
-                    this.roomPickedL = false
-                    this.selectedRoom = 'Fiestas'
-            } else if (room == 'OrgEvents') {
-                this.roomPickedFiesta = false,
-                    this.roomPickedOrgEvents = true,
-                    this.roomPickedMAM = false,
-                    this.roomPickedSMP = false,
-                    this.roomPickedSE = false,
-                    this.roomPickedI = false,
-                    this.roomPickedN = false,
-                    this.roomPickedL = false,
-                    this.selectedRoom = 'Organizational Events'
-            } else if (room == 'MAM') {
-                this.roomPickedFiesta = false,
-                    this.roomPickedOrgEvents = false,
-                    this.roomPickedMAM = true,
-                    this.roomPickedSMP = false,
-                    this.roomPickedSE = false,
-                    this.roomPickedI = false,
-                    this.roomPickedN = false,
-                    this.roomPickedL = false
-                    this.selectedRoom = 'Manga, Anime & Manwha'
-            } else if (room == 'SMP') {
-                this.roomPickedFiesta = false,
-                    this.roomPickedOrgEvents = false,
-                    this.roomPickedMAM = false,
-                    this.roomPickedSMP = true,
-                    this.roomPickedSE = false,
-                    this.roomPickedI = false,
-                    this.roomPickedN = false,
-                    this.roomPickedL = false
-                    this.selectedRoom = 'Science, Math & Programming'
-            } else if (room == 'SE') {
-                this.roomPickedFiesta = false,
-                    this.roomPickedOrgEvents = false,
-                    this.roomPickedMAM = false,
-                    this.roomPickedSMP = false,
-                    this.roomPickedSE = true,
-                    this.roomPickedI = false,
-                    this.roomPickedN = false,
-                    this.roomPickedL = false,
-                    this.selectedRoom = 'School and Education'
-            } else if (room == 'I') {
-                this.roomPickedFiesta = false,
-                    this.roomPickedOrgEvents = false,
-                    this.roomPickedMAM = false,
-                    this.roomPickedSMP = false,
-                    this.roomPickedSE = false,
-                    this.roomPickedI = true,
-                    this.roomPickedN = false,
-                    this.roomPickedL = false,
-                    this.selectedRoom = 'International News'
-            } else if (room == 'N') {
-                this.roomPickedFiesta = false,
-                    this.roomPickedOrgEvents = false,
-                    this.roomPickedMAM = false,
-                    this.roomPickedSMP = false,
-                    this.roomPickedSE = false,
-                    this.roomPickedI = false,
-                    this.roomPickedN = true,
-                    this.roomPickedL = false,
-                    this.selectedRoom = 'National News'
-            } else if (room == 'L') {
-                this.roomPickedFiesta = false,
-                    this.roomPickedOrgEvents = false,
-                    this.roomPickedMAM = false,
-                    this.roomPickedSMP = false,
-                    this.roomPickedSE = false,
-                    this.roomPickedI = false,
-                    this.roomPickedN = false,
-                    this.roomPickedL = true
-                    this.selectedRoom = 'Local News'
-            }
+        OldRoomID.value = roomNo
+    });
+    socket.on('users-connected', users => {
+        connectedUsers.value = users
+    });
+});
+onBeforeUnmount(() => {
+    socket.disconnect()
+});
+
+let messages = ref([])
+let currentUser = ref(store.state.username)
+let input = ref('')
+const imgPreUrl = ref('https://avatars.dicebear.com/api/micah/')
+const extUrl = ref('.svg')
+let roomPicked = ref(false)
+let roomPickedFiesta = ref(false)
+let roomPickedOrgEvents = ref(false)
+let roomPickedMAM = ref(false)
+let roomPickedSMP = ref(false)
+let roomPickedSE = ref(false)
+let roomPickedI = ref(false)
+let roomPickedN = ref(false)
+let roomPickedL = ref(false)
+let OldRoomID = ref('')
+let selectedRoom = ref('')
+let menuMobileToggle = ref(true)
+let connectedUsers = ref(0)
+
+function pickRoom(room) {
+    socket.emit('join room', room, `${currentUser.value} has joined the room.`)
+    messages.value = []
+    menuMobileToggle.value = true
+    roomPicked.value = true
+    if (room == 'Fiesta') {
+        roomPickedFiesta.value = true,
+            roomPickedOrgEvents.value = false,
+            roomPickedMAM.value = false,
+            roomPickedSMP.value = false,
+            roomPickedSE.value = false,
+            roomPickedI.value = false,
+            roomPickedN.value = false,
+            roomPickedL.value = false
+        selectedRoom.value = 'Fiestas'
+    } else if (room == 'OrgEvents') {
+        roomPickedFiesta.value = false,
+            roomPickedOrgEvents.value = true,
+            roomPickedMAM.value = false,
+            roomPickedSMP.value = false,
+            roomPickedSE.value = false,
+            roomPickedI.value = false,
+            roomPickedN.value = false,
+            roomPickedL.value = false,
+            selectedRoom = 'Organizational Events'
+    } else if (room == 'MAM') {
+        roomPickedFiesta.value = false,
+            roomPickedOrgEvents.value = false,
+            roomPickedMAM.value = true,
+            roomPickedSMP.value = false,
+            roomPickedSE.value = false,
+            roomPickedI.value = false,
+            roomPickedN.value = false,
+            roomPickedL.value = false
+        selectedRoom.value = 'Manga, Anime & Manwha'
+    } else if (room == 'SMP') {
+        roomPickedFiesta.value = false,
+            roomPickedOrgEvents.value = false,
+            roomPickedMAM.value = false,
+            roomPickedSMP.value = true,
+            roomPickedSE.value = false,
+            roomPickedI.value = false,
+            roomPickedN.value = false,
+            roomPickedL.value = false
+        selectedRoom.value = 'Science, Math & Programming'
+    } else if (room == 'SE') {
+        roomPickedFiesta.value = false,
+            roomPickedOrgEvents.value = false,
+            roomPickedMAM.value = false,
+            roomPickedSMP.value = false,
+            roomPickedSE.value = true,
+            roomPickedI.value = false,
+            roomPickedN.value = false,
+            roomPickedL.value = false,
+            selectedRoom = 'School and Education'
+    } else if (room == 'I') {
+        roomPickedFiesta.value = false,
+            roomPickedOrgEvents.value = false,
+            roomPickedMAM.value = false,
+            roomPickedSMP.value = false,
+            roomPickedSE.value = false,
+            roomPickedI.value = true,
+            roomPickedN.value = false,
+            roomPickedL.value = false,
+            selectedRoom.value = 'International News'
+    } else if (room == 'N') {
+        roomPickedFiesta.value = false,
+            roomPickedOrgEvents.value = false,
+            roomPickedMAM.value = false,
+            roomPickedSMP.value = false,
+            roomPickedSE.value = false,
+            roomPickedI.value = false,
+            roomPickedN.value = true,
+            roomPickedL.value = false,
+            selectedRoom.value = 'National News'
+    } else if (room == 'L') {
+        roomPickedFiesta.value = false,
+            roomPickedOrgEvents.value = false,
+            roomPickedMAM.value = false,
+            roomPickedSMP.value = false,
+            roomPickedSE.value = false,
+            roomPickedI.value = false,
+            roomPickedN.value = false,
+            roomPickedL.value = true
+        selectedRoom.value = 'Local News'
+    }
 
 
-            if (this.OldRoomID) {
-                socket.emit('leave room', this.OldRoomID, `${this.currentUser} has left the room.`)
-            }
-        },
-        sendMessage(e, msg) {
-            let userpic = this.imgPreUrl + this.currentUser + this.extUrl
-            if (this.input == '') {
-                e.preventDefault()
-            } else {
-                socket.emit('message', msg, this.currentUser, userpic)
-                this.input = ''
-            }
-        },
-        scrollBottom() {
-            let el = document.getElementById('chatbox')
-            el.lastElementChild.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
-        },
-        toggleMenu() {
-            this.menuMobileToggle = !this.menuMobileToggle
-        }
+    if (OldRoomID.value) {
+        socket.emit('leave room', OldRoomID.value, `${currentUser.value} has left the room.`)
     }
 }
+function sendMessage(e, msg) {
+    let userpic = imgPreUrl.value + currentUser.value + extUrl.value
+    if (input.value == '') {
+        e.preventDefault()
+    } else {
+        socket.emit('message', msg, currentUser.value, userpic)
+        input.value = ''
+    }
+}
+function scrollBottom() {
+    let el = document.getElementById('chatbox')
+    el.lastElementChild.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
+}
+function toggleMenu() {
+    menuMobileToggle.value = !menuMobileToggle.value
+}
 </script>
-
 <style scoped>
 img {
     width: 5%;

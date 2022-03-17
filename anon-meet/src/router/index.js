@@ -2,7 +2,7 @@ import {
     createRouter,
     createWebHistory
 } from 'vue-router'
-import store from '../store'
+import {store} from '../store'
 import AnonUsername from '../components/AnonUsername.vue'
 import AnonChat from '../components/AnonChat.vue'
 

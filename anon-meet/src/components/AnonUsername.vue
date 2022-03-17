@@ -1,18 +1,18 @@
-nc<template>
+<template>
     <section class="hero is-fullheight" style=" margin: auto; background-color: whitesmoke">
         <div class="hero-body" style="width: 33%; margin: auto;">
             <div class="container has-text-centered box">
-                <h1 class="title is-1"><span class="has-text-success">An</span>on Meet</h1>
+                <h1 class="title is-1">
+                    <span class="has-text-success">An</span>on Meet
+                </h1>
                 <div class="block"></div>
-                <p class="subtitle is-5">Chat anyone, <b>anonymously</b>.</p>
+                <p class="subtitle is-5">
+                    Chat anyone,
+                    <b>anonymously</b>.
+                </p>
                 <div class="field">
                     <div class="control">
-                        <input
-                            class="input"
-                            type="input"
-                            v-model="username"
-                            placeholder="Username"
-                        />
+                        <input class="input" type="input" v-model="username" placeholder="Username" />
                     </div>
                     <br />
                     <button
@@ -22,26 +22,29 @@ nc<template>
                         @click="anonChat"
                     >Get Started</button>
                 </div>
-                <p class="subtitle is-7 has-text-left">Developed by <b>Ronan</b>. | | <a href="www.facebook.com/leindfraust">Facebook</a>  <a href="https://github.com/leindfraust">Github</a></p>
+                <p class="subtitle is-7 has-text-left">
+                    Developed by
+                    <b>Ronan</b>. | |
+                    <a href="www.facebook.com/leindfraust">Facebook</a>
+                    <a href="https://github.com/leindfraust">Github</a>
+                </p>
             </div>
         </div>
     </section>
 </template>
 
-<script>
-export default {
-    name: 'AnonUsername',
-    data() {
-        return {
-            username: ''
-        }
-    },
-    methods: {
-        async anonChat() {
-            this.$store.commit("username", this.username)
-            await this.$router.push('/chatnow')
-        }
-    }
+<script setup>
+import { computed, ref } from 'vue'
+import { useStore } from 'vuex';
+import { useRouter, useRoute } from 'vue-router'
+
+const store = useStore()
+const router = useRouter()
+const route = useRoute()
+let username = ref('')
+async function anonChat() {
+    store.commit('username', username.value)
+    router.push('/chatnow')
 }
 </script>
 
