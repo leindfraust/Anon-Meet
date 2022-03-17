@@ -2,10 +2,7 @@
 No database, chat web application made with Socket.io and Vue 3.
  
 # Get Started
-Fork project and go to directory folder
-```
-cd anon-meet
-```
+Fork project and open folder with your terminal.
 
 Install packages in server-side(root directory) and client-side(anon-meet)
 
