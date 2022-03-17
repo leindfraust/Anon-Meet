@@ -246,7 +246,7 @@
                     </div>
                 </div>
             </div>
-            <div class="field has-addons">
+            <div class="field has-addons" id="send-control">
                 <p class="control" style="width: 100%;">
                     <input
                         type="input"
@@ -440,13 +440,18 @@ function sendMessage(e, msg) {
 }
 function scrollBottom() {
     let el = document.getElementById('chatbox')
-    el.lastElementChild.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
+    el.lastElementChild.scrollIntoView({ behavior: "smooth" });
 }
 function toggleMenu() {
     menuMobileToggle.value = !menuMobileToggle.value
 }
 </script>
 <style scoped>
+#send-control {
+    position: fixed;
+    bottom: 0;
+    width: 82vw;
+}
 #menu-nav {
     width: 17vw;
 }
@@ -454,6 +459,11 @@ function toggleMenu() {
     width: 5%;
 }
 @media (max-width: 991.98px) {
+    #send-control {
+        position: fixed;
+        bottom: 0;
+        width: 100vw;
+    }
     .socials {
         width: 15%;
     }
@@ -461,7 +471,7 @@ function toggleMenu() {
         margin-top: 0px !important;
     }
     #chatbox {
-        height: 80vh !important;
+        height: 70vh !important;
     }
     #menu-nav {
         width: 100%;
