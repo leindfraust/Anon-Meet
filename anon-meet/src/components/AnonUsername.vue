@@ -12,7 +12,7 @@
                 </p>
                 <div class="field">
                     <div class="control">
-                        <input class="input" type="input" v-model="username" placeholder="Username" />
+                        <input @keyup.enter="anonChat" class="input" type="input" v-model="username" placeholder="Username" />
                     </div>
                     <br />
                     <button
@@ -25,8 +25,11 @@
                 <p class="subtitle is-7 has-text-left">
                     Developed by
                     <b>Ronan</b>. | |
-                    <a href="www.facebook.com/leindfraust">Facebook</a>
-                    <a href="https://github.com/leindfraust">Github</a>
+                    <a
+                        style="padding: 5px"
+                        href="https://www.facebook.com/leindfraustBusiness"
+                    >Facebook</a>
+                    <a style="padding: 5px" href="https://github.com/leindfraust">Github</a>
                 </p>
             </div>
         </div>
@@ -36,7 +39,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useStore } from 'vuex';
-import { useRouter} from 'vue-router'
+import { useRouter } from 'vue-router'
 
 const store = useStore()
 const router = useRouter()
