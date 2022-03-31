@@ -1,133 +1,43 @@
 <template>
+    <nav class="navbar is-hidden-desktop">
+        <div class="navbar-brand">
+            <router-link to="/chatnow" class="navbar-item">
+                <img :src="require('../assets/logo.png')" />
+            </router-link>
+            <a
+                role="button"
+                class="navbar-burger"
+                aria-label="menu"
+                aria-expanded="false"
+                @click="toggleMenu"
+            >
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+    </nav>
     <div class="columns">
         <div class="column is-2">
-            <nav class="navbar">
-                <div class="navbar-brand">
-                    <router-link to="/" class="navbar-item">
-                        <img :src="require('../assets/logo.png')" />
-                    </router-link>
-                    <a
-                        role="button"
-                        class="navbar-burger"
-                        aria-label="menu"
-                        aria-expanded="false"
-                        @click="toggleMenu"
-                    >
-                        <span aria-hidden="true"></span>
-                        <span aria-hidden="true"></span>
-                        <span aria-hidden="true"></span>
-                    </a>
-                </div>
-            </nav>
-            <aside class="menu box" id="menu-nav" :class="{ 'is-hidden-mobile': menuMobileToggle }">
-                <ul class="menu-list container">
-                    <p class="subtitle is-6 has-text-success">Users Online: {{ connectedUsers }}</p>
-                    <p class="menu-label">Meet Ups</p>
-                    <li>
-                        <a
-                            class="dropdown-item"
-                            :class="{ 'is-active': roomPickedSocialEvent }"
-                            @click="pickRoom('SocialEvent')"
-                            :disabled="OldRoomID == 'SocialEvent'"
-                        >
-                            <i class="fa-solid fa-people-pulling"></i>&nbsp; Social Events
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            class="dropdown-item"
-                            :class="{ 'is-active': roomPickedOrgEvents }"
-                            @click="pickRoom('OrgEvents')"
-                            :disabled="OldRoomID == 'OrgEvents'"
-                        >
-                            <i class="fa-solid fa-people-group"></i>&nbsp; Organizational Events
-                        </a>
-                    </li>
-                    <p class="menu-label">Interests</p>
-                    <li>
-                        <a
-                            class="dropdown-item"
-                            :class="{ 'is-active': roomPickedDating }"
-                            @click="pickRoom('Dating')"
-                            :disabled="OldRoomID == 'Dating'"
-                        >
-                            <i class="fa-solid fa-heart-pulse"></i>&nbsp; Dating
-                        </a>
-                        <a
-                            class="dropdown-item"
-                            :class="{ 'is-active': roomPickedMAM }"
-                            @click="pickRoom('MAM')"
-                            :disabled="OldRoomID == 'MAM'"
-                        >
-                            <i class="fa-solid fa-book-open-reader"></i>&nbsp; Manga, Anime & Manwha
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            class="dropdown-item"
-                            :class="{ 'is-active': roomPickedSMP }"
-                            @click="pickRoom('SMP')"
-                            :disabled="OldRoomID == 'SMP'"
-                        >
-                            <i class="fa-solid fa-flask"></i>&nbsp; Science, Math & Programming
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            class="dropdown-item"
-                            :class="{ 'is-active': roomPickedSE }"
-                            @click="pickRoom('SE')"
-                            :disabled="OldRoomID == 'SE'"
-                        >
-                            <i class="fa-solid fa-school-flag"></i>&nbsp; School and Education
-                        </a>
-                    </li>
-                    <p class="menu-label">News</p>
-                    <li>
-                        <a
-                            class="dropdown-item"
-                            :class="{ 'is-active': roomPickedI }"
-                            @click="pickRoom('I')"
-                            :disabled="OldRoomID == 'I'"
-                        >
-                            <i class="fa-solid fa-globe"></i>&nbsp; International
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            class="dropdown-item"
-                            :class="{ 'is-active': roomPickedN }"
-                            @click="pickRoom('N')"
-                            :disabled="OldRoomID == 'N'"
-                        >
-                            <i class="fa-solid fa-building-flag"></i>&nbsp; National
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            class="dropdown-item"
-                            :class="{ 'is-active': roomPickedL }"
-                            @click="pickRoom('L')"
-                            :disabled="OldRoomID == 'L'"
-                        >
-                            <i class="fa-solid fa-street-view"></i>&nbsp; Local
-                        </a>
-                    </li>
-                </ul>
-            </aside>
-        </div>
-        <div class="column" v-if="!roomPicked">
-            <h1
-                class="title has-text-centered"
-                id="pickRoomDialogue"
-                style="margin-top: 50vh"
-            >Pick a room to start chatting!</h1>
             <aside
-                class="menu box is-hidden-desktop"
-                :class="{ 'is-hidden-mobile': !menuMobileToggle }"
+                class="menu box"
+                style="height: 100vh"
+                id="menu-nav"
+                :class="{ 'is-hidden-mobile': menuMobileToggle }"
             >
                 <ul class="menu-list container">
+                    <img class="is-hidden-mobile" :src="require('../assets/logo.png')" />
                     <p class="subtitle is-6 has-text-success">Users Online: {{ connectedUsers }}</p>
+                    <li>
+                        <a
+                            class="dropdown-item"
+                            :class="{ 'is-active': roomPickedHangout }"
+                            @click="pickRoom('Hangout')"
+                            :disabled="OldRoomID == 'Hangout'"
+                        >
+                            <i class="fa-solid fa-people-pulling"></i>&nbsp; Hangout
+                        </a>
+                    </li>
                     <p class="menu-label">Meet Ups</p>
                     <li>
                         <a
@@ -136,7 +46,7 @@
                             @click="pickRoom('SocialEvent')"
                             :disabled="OldRoomID == 'SocialEvent'"
                         >
-                            <i class="fa-solid fa-people-pulling"></i>&nbsp; Social Events
+                            <i class="fa-solid fa-people-line"></i>&nbsp; Social Events
                         </a>
                     </li>
                     <li>
@@ -220,6 +130,8 @@
                         </a>
                     </li>
                 </ul>
+                <hr/>
+                <button class="button is-danger" @click="socket.disconnect(), $router.push('/')">Leave</button>
             </aside>
         </div>
         <div class="column" v-if="roomPicked">
@@ -276,6 +188,7 @@ const store = useStore()
 
 onMounted(() => {
     socket.connect()
+    pickRoom('Hangout')
     socket.on('chat message', (msg, user, userpic) => {
         messages.value.push({
             user: user,
@@ -304,6 +217,7 @@ let input = ref('')
 const imgPreUrl = ref('https://avatars.dicebear.com/api/micah/')
 const extUrl = ref('.svg')
 let roomPicked = ref(false)
+let roomPickedHangout = ref(false)
 let roomPickedSocialEvent = ref(false)
 let roomPickedOrgEvents = ref(false)
 let roomPickedDating = ref(false)
@@ -323,7 +237,20 @@ function pickRoom(room) {
     messages.value = []
     menuMobileToggle.value = true
     roomPicked.value = true
-    if (room == 'SocialEvent') {
+    if (room == 'Hangout') {
+        roomPickedHangout.value = true
+        roomPickedSocialEvent.value = false,
+            roomPickedOrgEvents.value = false,
+            roomPickedDating.value = false,
+            roomPickedMAM.value = false,
+            roomPickedSMP.value = false,
+            roomPickedSE.value = false,
+            roomPickedI.value = false,
+            roomPickedN.value = false,
+            roomPickedL.value = false
+        selectedRoom.value = 'Hangout'
+    } else if (room == 'SocialEvent') {
+        roomPickedHangout.value = false
         roomPickedSocialEvent.value = true,
             roomPickedOrgEvents.value = false,
             roomPickedDating.value = false,
@@ -335,6 +262,7 @@ function pickRoom(room) {
             roomPickedL.value = false
         selectedRoom.value = 'Social Events'
     } else if (room == 'OrgEvents') {
+        roomPickedHangout.value = false
         roomPickedSocialEvent.value = false,
             roomPickedOrgEvents.value = true,
             roomPickedDating.value = false,
@@ -346,6 +274,7 @@ function pickRoom(room) {
             roomPickedL.value = false,
             selectedRoom.value = 'Organizational Events'
     } else if (room == 'MAM') {
+        roomPickedHangout.value = false
         roomPickedSocialEvent.value = false,
             roomPickedOrgEvents.value = false,
             roomPickedDating.value = false,
@@ -357,6 +286,7 @@ function pickRoom(room) {
             roomPickedL.value = false
         selectedRoom.value = 'Manga, Anime & Manwha'
     } else if (room == 'Dating') {
+        roomPickedHangout.value = false
         roomPickedSocialEvent.value = false,
             roomPickedOrgEvents.value = false,
             roomPickedDating.value = true,
@@ -368,6 +298,7 @@ function pickRoom(room) {
             roomPickedL.value = false
         selectedRoom.value = 'Dating'
     } else if (room == 'SMP') {
+        roomPickedHangout.value = false
         roomPickedSocialEvent.value = false,
             roomPickedOrgEvents.value = false,
             roomPickedDating.value = false,
@@ -379,6 +310,7 @@ function pickRoom(room) {
             roomPickedL.value = false
         selectedRoom.value = 'Science, Math & Programming'
     } else if (room == 'SE') {
+        roomPickedHangout.value = false
         roomPickedSocialEvent.value = false,
             roomPickedOrgEvents.value = false,
             roomPickedDating.value = false,
@@ -390,6 +322,7 @@ function pickRoom(room) {
             roomPickedL.value = false,
             selectedRoom.value = 'School and Education'
     } else if (room == 'I') {
+        roomPickedHangout.value = false
         roomPickedSocialEvent.value = false,
             roomPickedOrgEvents.value = false,
             roomPickedDating.value = false,
@@ -401,6 +334,7 @@ function pickRoom(room) {
             roomPickedL.value = false,
             selectedRoom.value = 'International News'
     } else if (room == 'N') {
+        roomPickedHangout.value = false
         roomPickedSocialEvent.value = false,
             roomPickedOrgEvents.value = false,
             roomPickedDating.value = false,
@@ -412,6 +346,7 @@ function pickRoom(room) {
             roomPickedL.value = false,
             selectedRoom.value = 'National News'
     } else if (room == 'L') {
+        roomPickedHangout.value = false
         roomPickedSocialEvent.value = false,
             roomPickedOrgEvents.value = false,
             roomPickedDating.value = false,
@@ -454,6 +389,7 @@ function toggleMenu() {
 }
 #menu-nav {
     width: 17vw;
+    height: 100vh;
 }
 .socials {
     width: 5%;
@@ -461,7 +397,7 @@ function toggleMenu() {
 @media (max-width: 991.98px) {
     #send-control {
         position: fixed;
-        bottom: 0;
+        bottom: 25vh;
         width: 100vw;
     }
     .socials {
@@ -471,10 +407,21 @@ function toggleMenu() {
         margin-top: 0px !important;
     }
     #chatbox {
-        height: 50vh !important;
+        height: 45vh !important;
     }
     #menu-nav {
         width: 100%;
+    }
+}
+
+@media (max-width: 320px){
+    #send-control {
+        position: fixed;
+        bottom: 20vh;
+        width: 100vw;
+    }
+    #chatbox {
+        height: 35vh !important;
     }
 }
 .dropdown-item {
